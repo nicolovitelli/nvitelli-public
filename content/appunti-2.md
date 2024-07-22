@@ -1,5 +1,5 @@
 # 001
-```sql
+```plsql
 create package pack1 as
 	pragma deprecate (pack1);
 	procedure my_procedure;
@@ -26,7 +26,7 @@ end;
 > - CREATE TYPE
 > - CREATE TYPE BODY
 
-```sql
+```plsql
 create function funct1 return boolean
     accessible by (package pack1)
 is
@@ -37,7 +37,7 @@ end;
 ```
 
 - B is true:
-```sql
+```plsql
 create function funct6 return number
 is
 begin
@@ -54,7 +54,7 @@ end;
 ```
 
 - C is false:
-```sql
+```plsql
 create or replace procedure p_test (my_var in date)
 is
 begin
@@ -80,7 +80,7 @@ end;
 ```
 
 - D is false:
-```sql
+```plsql
 create or replace procedure p_test (my_var in date)
 is
 begin
@@ -107,7 +107,7 @@ from dual;
 ```
 
 - E is true:
-```sql
+```plsql
 create procedure p_test_1
 is
 begin
@@ -117,7 +117,7 @@ end;
 ```
 
 - F is true:
-```sql
+```plsql
 create or replace function f_test return number
 is
 begin
