@@ -4,13 +4,13 @@ create package pack1 as
 	pragma deprecate (pack1);
 	procedure my_procedure;
 end;
->> Package PACK1 compiled
+-- Package PACK1 compiled
 
 create package pack2 as
 	my_variable number := 1;
 	pragma deprecate(my_variable, 'unused variable');
 end;
->> Package PACK2 compiled
+-- Package PACK2 compiled
 ```
 
 [Oracle Documentation - DEPRECATE Pragma](https://docs.oracle.com/en/database/oracle/oracle-database/23/lnpls/DEPRECATE-pragma.html)
@@ -33,7 +33,7 @@ is
 begin
     return true;
 end;
->> Function FUNCT1 compiled
+-- Function FUNCT1 compiled
 ```
 
 - B is true:
@@ -43,14 +43,14 @@ is
 begin
     null;
 end;
-> Function FUNCT6 compiled
+-- Function FUNCT6 compiled
 
 declare
     my_var number := 0;
 begin
     my_var := funct6;
 end;
-> ORA-06503: PL/SQL: Function returned without value
+-- ORA-06503: PL/SQL: Function returned without value
 ```
 
 - C is false:
@@ -60,14 +60,14 @@ is
 begin
     null;
 end;
-> Procedure P_TEST compiled
+-- Procedure P_TEST compiled
 
 create or replace function f_test (my_var in date) return date
 is
 begin
     return my_var;
 end;
-> Function F_TEST compiled
+-- Function F_TEST compiled
 
 declare
     my_var_param date;
@@ -76,7 +76,7 @@ begin
     p_test(my_var_param);
     my_var_param := f_test(my_var_param);
 end;
-> PL/SQL procedure successfully completed.
+-- PL/SQL procedure successfully completed.
 ```
 
 - D is false:
@@ -86,24 +86,24 @@ is
 begin
     null;
 end;
-> Procedure P_TEST compiled
+-- Procedure P_TEST compiled
 
 create or replace function f_test (my_var in date) return date
 is
 begin
     return my_var;
 end;
-> Function F_TEST compiled
+-- Function F_TEST compiled
 
 select p_test()
 from dual;
-> ORA-00904: "P_TEST": invalid identifier
+-- ORA-00904: "P_TEST": invalid identifier
 
 select f_test(sysdate)
 from dual;
-> F_TEST(SYSDATE)       
-> --------------------- 
-> 7/20/2024, 5:17:37 PM 
+-- F_TEST(SYSDATE)       
+-- --------------------- 
+-- 7/20/2024, 5:17:37 PM 
 ```
 
 - E is true:
@@ -113,7 +113,7 @@ is
 begin
     return 1+1;
 end;
-> PLS-00372: In a procedure, RETURN statement cannot contain an expression
+-- PLS-00372: In a procedure, RETURN statement cannot contain an expression
 ```
 
 - F is true:
@@ -124,5 +124,5 @@ begin
     null;
     return;
 end;
-> PLS-00503: RETURN <value> statement required for this return from function
+-- PLS-00503: RETURN <value> statement required for this return from function
 ```
