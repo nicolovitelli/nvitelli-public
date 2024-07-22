@@ -9,6 +9,7 @@ You cannot use:
 - any column name of the second (, third, etc.) query
 - any alias of the second (, third, etc.) query
 
+
 - A is true:
 ~~~sql
 SELECT cust_id, cust_last_name "Last name"
@@ -116,20 +117,13 @@ having cnt > 60;
 -- ORA-00904: "CNT": invalid identifier
 ~~~
 
-- D is true and E is false?
-Technically, the query processing order is:
-- FROM
-- JOINs
-- GROUP BY
-- HAVING
-- WHERE
-- SELECT
-- ORDER BY
-So HAVING clause is calculated before WHERE, therefore D should be false and E true.
-
-Articles:
-- [article 1](https://tipsfororacle.blogspot.com/2016/10/oracle-sql-query-order-of-operations.html)
-- [article 2](https://logicalread.com/order-query-execution-oracle-12c-mc06/)
+- D is true and E is false. Oracle's SQL queries are processed with this order:
+	- FROM
+	- WHERE
+	- GROUP BY
+	- SELECT
+	- HAVING
+	- ORDER BY
 
 # 003
 
