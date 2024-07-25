@@ -1,4 +1,5 @@
 # 001
+- you cannot use DEPRECATE Pragma on Anonymous Blocks, Trigger Bodies or Database Links.
 ```plsql
 create package pack1 as
 	pragma deprecate (pack1);
@@ -126,3 +127,22 @@ begin
 end;
 -- PLS-00503: RETURN <value> statement required for this return from function
 ```
+
+# 003
+
+# 004
+
+- A is false:
+> The PARALLEL_ENABLE clause can appear in the following SQL statements:
+> - CREATE FUNCTION Statement
+> - CREATE PACKAGE Statement
+> - CREATE TYPE BODY Statement
+
+[Oracle Documentation - PARALLEL_ENABLE Clause](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/PARALLEL_ENABLE-clause.html)
+
+- B is true:
+> Requests that the compiler pass the corresponding actual parameter by reference instead of value
+
+[Oracle Documentation - Formal Parameter Declaration](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/formal-parameter-declaration.html)
+
+- D is false (*see answer B*)

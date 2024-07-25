@@ -9,115 +9,15 @@ You cannot use:
 - any column name of the second (, third, etc.) query
 - any alias of the second (, third, etc.) query
 
-
-- A is true:
-~~~sql
-SELECT cust_id, cust_last_name "Last name"
-FROM sh.customers
-WHERE country_id = 10
-UNION
-SELECT cust_id CUST_NO, cust_last_name
-FROM sh.customers
-WHERE country_id = 30
-ORDER BY "Last name";
--- No data found
-~~~
-
-- B is true:
-~~~sql
-SELECT cust_id, cust_last_name "Last name"
-FROM sh.customers
-WHERE country_id = 10
-UNION
-SELECT cust_id CUST_NO, cust_last_name
-FROM sh.customers
-WHERE country_id = 30
-ORDER BY 2, cust_id;
--- No data found
-~~~
-
-- C is false:
-~~~sql
-SELECT cust_id, cust_last_name "Last name"
-FROM sh.customers
-WHERE country_id = 10
-UNION
-SELECT cust_id CUST_NO, cust_last_name
-FROM sh.customers
-WHERE country_id = 30
-ORDER BY CUST_NO;
--- ORA-00904: "CUST_NO": invalid identifier
-~~~
-
-- D is true:
-~~~sql
-SELECT cust_id, cust_last_name "Last name"
-FROM sh.customers
-WHERE country_id = 10
-UNION
-SELECT cust_id CUST_NO, cust_last_name
-FROM sh.customers
-WHERE country_id = 30
-ORDER BY 2, 1;
--- No data found
-~~~
-
-- E is false:
-~~~sql
-SELECT cust_id, cust_last_name "Last name"
-FROM sh.customers
-WHERE country_id = 10
-UNION
-SELECT cust_id CUST_NO, cust_last_name
-FROM sh.customers
-WHERE country_id = 30
-ORDER BY "CUST_NO";
--- ORA-00904: "CUST_NO": invalid identifier
-~~~
+C and E would return the error `ORA-00904: "CUST_NO": invalid identifier`.
 
 # 002
 
-- A is false:
-~~~sql
-select count(cust_id), cust_first_name
-from sh.customers
-where cust_gender = 'M'
-group by cust_first_name
-having count(1) > 60;
--- COUNT(CUST_ID) CUST_FIRST_NAME 
--- -------------- --------------- 
---             64 Antony          
---             63 Arnand          
---             63 Baldwin         
---             63 Bartholomew     
---             64 Baxter   
-~~~
-
-- B is true:
-~~~sql
-select count(cust_id), cust_first_name
-from sh.customers
-group by cust_first_name
-having count(1) > 60;
--- COUNT(CUST_ID) CUST_FIRST_NAME 
--- -------------- --------------- 
---             63 Angela          
---             64 Antony          
---             63 Arnand          
---             65 Ashley          
---             64 August  
-~~~
-
-- C is false:
-~~~sql
-select count(cust_id) cnt, cust_first_name
-from sh.customers
-group by cust_first_name
-having cnt > 60;
--- ORA-00904: "CNT": invalid identifier
-~~~
-
-- D is true and E is false. Oracle's SQL queries are processed with this order:
+WHERE and HAVING have two main differences:
+- WHERE is used to filter data before it is aggregated and does not allow Aggregate Functions
+- HAVING is used to filter the data after it is aggregated and does allow Aggregate Functions
+- both can be used in the same SQL query
+- neither WHERE nor HAVING can use column aliases since they're processed before SELECT:
 	- FROM
 	- WHERE
 	- GROUP BY
@@ -129,7 +29,7 @@ having cnt > 60;
 
 # 004
 
-- A is false:
+- A is incorrect:
 When using INSERT INTO ... VALUES .. you are only specifying values for ONE row.
 ~~~sql
 create table t (t1 number);
@@ -157,7 +57,7 @@ where t1 = 1 or t1 = 3;
 -- 2 rows updated.
 ~~~
 
-- C is false: DELETE FROM statement can specify multiple conditions.
+- C is incorrect: DELETE FROM statement can specify multiple conditions.
 ~~~sql
 create table t (t1 number);
 -- Table T created.
@@ -173,15 +73,15 @@ delete from t where t1 = 1 or t1 = 3;
 -- 2 rows deleted.
 ~~~
 
-- D is false: you cannot specify any condition in an INSERT INTO ... VALUES .. statement.
+- D is incorrect: you cannot specify any condition in an INSERT INTO ... VALUES .. statement.
 
-- F is false: you can specify multiple conditions in an UPDATE statement (*see example above*).
+- F is incorrect: you can specify multiple conditions in an UPDATE statement (*see example above*).
 
 # 005
 
 # 006
 
-- A is false: a Constraint is enforced for every DML operation.
+- A is incorrect: a Constraint is enforced for every DML operation.
 ~~~sql
 create table t (t1 number not null);
 -- Table T created.
@@ -193,7 +93,7 @@ update t set t1 = null;
 -- ORA-01407: cannot update ("NICO"."T"."T1") to NULL
 ~~~
 
-- B is false: a Foreign Key allows NULL values.
+- B is incorrect: a Foreign Key allows NULL values.
 ~~~sql
 create table t (t1 number unique);
 -- Table T created.
@@ -245,3 +145,39 @@ When a DROP TABLE statement is executed:
 - any pending transaction is committed
 
 [Oracle Documentation - DROP TABLE](https://docs.oracle.com/en/database/oracle/oracle-database/19/sqlrf/DROP-TABLE.html)
+
+# 012
+
+# 013
+
+- A is incorrect: you cannot specify more than one table in a DELETE statement
+- B is incorrect: the WHERE clause is missing in the condition
+- C is correct; the statement will delete all rows from the ORDERS table which have an order_total less than 1000
+- D is incorrect: you cannot specify a column name in a DELETE statement
+
+# 014
+
+# 015
+
+# 016
+
+# 017
+
+# 018
+
+the correct answer is D:
+- despite the statement does not have any syntax issue, the condition `(category_id = 12 and category_13)` doesn't make sense. a row cannot have both values in the category_id column, therefore the statement would return no rows. the correct condition would be `(category_id = 12 or category_13)`.
+
+# 019
+
+# 020
+
+# 021
+
+correct answer is D:
+- when using ORDER BY, you can only specify:
+	- a column name
+	- a number that represents a column (1 = first column of the table)
+	- a column alias
+moreover, by default the ORDER BY clause uses an ASCENDING order.
+
