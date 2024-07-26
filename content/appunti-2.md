@@ -141,38 +141,38 @@ end;
 [Oracle Documentation - PARALLEL_ENABLE Clause](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/PARALLEL_ENABLE-clause.html)
 
 - B is true:
-> NOCOPY - Requests that the compiler pass the corresponding actual parameter by reference instead of value [...]
+> NOCOPY - Requests that the compiler pass the corresponding **actual parameter by reference instead of value** [...]
 
 [Oracle Documentation - Formal Parameter Declaration](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/formal-parameter-declaration.html)
 
 - C is false:
-> Do not specify DETERMINISTIC for a function whose result depends on the state of session variables or schema objects, because results might vary across invocations.
+> **Do not specify DETERMINISTIC for a function whose result depends on the state of session variables** or schema objects, because results might vary across invocations.
 
 [Oracle Documentation - DETERMINISTIC Clause](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/DETERMINISTIC-clause.html)
 
 - D is false (*see answer B*)
 
 - E is true:
-> The deterministic option marks a function that returns predictable results and has no side effects.
+> The deterministic option marks a function that returns **predictable results** and has no side effects.
 
 [Oracle Documentation - DETERMINISTIC Clause](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/DETERMINISTIC-clause.html)
 
 - F is false:
 > Restriction on parallel_enable_clause
-> You cannot specify the parallel_enable_clause for a nested function or SQL macro.
+> You **cannot specify** the parallel_enable_clause **for a nested function** or SQL macro.
 
 [Oracle Documentation - PARALLEL_ENABLE Clause](https://docs.oracle.com/en/database/oracle/oracle-database/23/lnpls/PARALLEL_ENABLE-clause.html)
 
 - G is true:
 > PARALLEL_ENABLE Clause - Enables the function for parallel execution, making it safe for use in concurrent sessions of parallel DML evaluations.
-> Indicates that the function can run from a parallel execution server of a parallel query operation.
+> Indicates that the function **can run from a parallel execution server of a parallel query operation**.
 
 [Oracle Documentation - PARALLEL_ENABLE Clause](https://docs.oracle.com/en/database/oracle/oracle-database/23/lnpls/PARALLEL_ENABLE-clause.html)
 
 # 005
 
 - A is true:
-> The data type of index can be either a string type (VARCHAR2, VARCHAR, STRING, or LONG) or PLS_INTEGER.
+> The data type of index **can be either a string type** (VARCHAR2, VARCHAR, STRING, or LONG) **or PLS_INTEGER**.
 ```plsql
 declare
     type t1 is table of varchar2(100) index by pls_integer;
@@ -186,7 +186,7 @@ end;
 - B is false (*see answer A*)
 - C is true: you cannot declare an Associative Array in a classic SQL statement.
 - D and E are false:
-> With the CREATE TYPE statement, you can create nested table and VARRAY types, but not associative arrays. In a PL/SQL block or package, you can define all three collection types.
+> With the CREATE TYPE statement, you can create nested table and VARRAY types, **but not associative arrays**. In a PL/SQL block or package, you can define all three collection types.
 
 [Oracle Documentation - CREATE TYPE Statement](https://docs.oracle.com/en/database/oracle/oracle-database/23/lnpls/CREATE-TYPE-statement.html)
 
@@ -569,3 +569,5 @@ begin
 end;
 -- ORA-01422: exact fetch returns more than requested number of rows
 ```
+
+# 013
