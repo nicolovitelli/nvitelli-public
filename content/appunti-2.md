@@ -682,7 +682,7 @@ end;
 # 017
 
 correct answer is C:
-> ACCESSIBLE BY Hint Syntax: `ACCESSIBLE BY (accessor)`
+> ACCESSIBLE BY Hint Syntax: ACCESSIBLE BY (*accessor*)
 > An entity named in an accessor is **not required to exist**.
 ```plsql
 create or replace procedure protected_proc
@@ -763,15 +763,15 @@ end;
 
 answers D,E,F are correct:
 > You can create triggers for these events:
-> **`AFTER STARTUP`**
-> **`BEFORE SHUTDOWN`**
-> `AFTER DB_ROLE_CHANGE`
-> **`AFTER SERVERERROR`**
-> `AFTER LOGON`
-> `BEFORE LOGOFF`
-> `AFTER SUSPEND`
-> `AFTER CLONE`
-> `BEFORE UNPLUG`
-> `[BEFORE|AFTER] SET CONTAINER`
+> **AFTER STARTUP**
+> **`BEFORE SHUTDOWN**
+> AFTER DB_ROLE_CHANGE
+> **AFTER SERVERERROR**
+> AFTER LOGON
+> BEFORE LOGOFF
+> AFTER SUSPEND
+> AFTER CLONE
+> BEFORE UNPLUG
+> [BEFORE|AFTER] SET CONTAINER
 
 [Oracle Documentation - CREATE TRIGGER Statement](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/CREATE-TRIGGER-statement.html)
