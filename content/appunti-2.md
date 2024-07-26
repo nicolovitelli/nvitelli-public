@@ -141,7 +141,7 @@ end;
 [Oracle Documentation - PARALLEL_ENABLE Clause](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/PARALLEL_ENABLE-clause.html)
 
 - B is true:
-> NOCOPY - Requests that the compiler pass the corresponding **actual parameter by reference instead of value** [...]
+> NOCOPY - Requests that the compiler **pass the corresponding actual parameter by reference instead of value** [...]
 
 [Oracle Documentation - Formal Parameter Declaration](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/formal-parameter-declaration.html)
 
@@ -153,26 +153,26 @@ end;
 - D is false (*see answer B*)
 
 - E is true:
-> The deterministic option marks a function that returns **predictable results** and has no side effects.
+> The **deterministic option marks a function that returns predictable results** and has no side effects.
 
 [Oracle Documentation - DETERMINISTIC Clause](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/DETERMINISTIC-clause.html)
 
 - F is false:
 > Restriction on parallel_enable_clause
-> You **cannot specify** the parallel_enable_clause **for a nested function** or SQL macro.
+> You **cannot specify the parallel_enable_clause for a nested function** or SQL macro.
 
 [Oracle Documentation - PARALLEL_ENABLE Clause](https://docs.oracle.com/en/database/oracle/oracle-database/23/lnpls/PARALLEL_ENABLE-clause.html)
 
 - G is true:
 > PARALLEL_ENABLE Clause - Enables the function for parallel execution, making it safe for use in concurrent sessions of parallel DML evaluations.
-> Indicates that the function **can run from a parallel execution server of a parallel query operation**.
+> Indicates that **the function can run from a parallel execution server of a parallel query operation**.
 
 [Oracle Documentation - PARALLEL_ENABLE Clause](https://docs.oracle.com/en/database/oracle/oracle-database/23/lnpls/PARALLEL_ENABLE-clause.html)
 
 # 005
 
 - A is true:
-> The data type of index **can be either a string type** (VARCHAR2, VARCHAR, STRING, or LONG) **or PLS_INTEGER**.
+> The **data type of index can be either a string type** (VARCHAR2, VARCHAR, STRING, or LONG) **or PLS_INTEGER**.
 ```plsql
 declare
     type t1 is table of varchar2(100) index by pls_integer;
@@ -186,7 +186,7 @@ end;
 - B is false (*see answer A*)
 - C is true: you cannot declare an Associative Array in a classic SQL statement.
 - D and E are false:
-> With the CREATE TYPE statement, you can create nested table and VARRAY types, **but not associative arrays**. In a PL/SQL block or package, you can define all three collection types.
+> **With the CREATE TYPE statement**, you can create nested table and VARRAY types, **but not associative arrays**. In a PL/SQL block or package, you can define all three collection types.
 
 [Oracle Documentation - CREATE TYPE Statement](https://docs.oracle.com/en/database/oracle/oracle-database/23/lnpls/CREATE-TYPE-statement.html)
 
@@ -571,3 +571,207 @@ end;
 ```
 
 # 013
+only the answer C is correct:
+```plsql
+declare
+    v_salary number(10);
+    v_commission number(10,2):=0;
+    v_title employees.job_id%type;
+begin
+    select job_id,salary
+    into v_title,v_salary
+    from employees
+    where employee_id=100;
+
+    if v_salary<20000 and v_title='AD_PRES' then
+        v_commission:=v_salary*0.1;
+        elsif v_salary between 20000 and 40000 then
+            v_commission:=v_salary*0.2;
+        elsif v_salary > 4000 and v_title <> 'AD_PRES' then
+            v_commission:=v_salary*0.3;
+        else
+            v_commission:=v_salary*0.05;
+    end if;
+    dbms_output.put_line(v_commission);
+end;
+-- 2500
+```
+
+# 014
+the original procedure can't be executed:
+```plsql
+create or replace procedure pdt_report (p_pdt_price in out number) is
+    cursor c_pdt(cur_price in out number) is
+        select * from products where price>cur_price;
+    v_pdt_name varchar2(20);
+begin
+    for r in c_pdt(p_pdt_price) loop
+        v_pdt_name:=r.pdt_name;
+        dbms_output.put_line(v_pdt_name);
+    end loop;
+end;
+-- Procedure PDT_REPORT compiled
+
+begin
+    pdt_report(1);
+end;
+-- PLS-00363: expression '1' cannot be used as an assignment target
+```
+
+answers A-B are correct:
+```plsql
+create or replace procedure pdt_report (p_pdt_price in number) is
+    cursor c_pdt(cur_price in number) is
+        select * from products where price>cur_price;
+    v_pdt_name varchar2(20);
+begin
+    for r in c_pdt(p_pdt_price) loop
+        v_pdt_name:=r.pdt_name;
+        dbms_output.put_line(v_pdt_name);
+    end loop;
+end;
+-- Procedure PDT_REPORT compiled
+
+begin
+    pdt_report(1);
+end;
+-- PL/SQL procedure successfully completed.
+```
+
+# 015
+
+- A is false:
+```plsql
+declare
+    my_exception exception;
+begin
+    raise my_exception;
+    exception when my_exception then
+        dbms_output.put_line('testing my_exception');
+end;
+-- testing my_exception
+```
+
+- B is false:
+> User-Defined Exceptions - **You must raise a user-defined exception explicitly**.
+
+[Oracle Documentation - User-Defined Exceptions](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/plsql-error-handling.html)
+
+- C is true:
+```plsql
+declare
+    my_exception exception;
+begin
+    raise my_exception;
+    exception when my_exception then
+        dbms_output.put_line('testing my_exception');
+end;
+-- testing my_exception
+```
+
+- D is false:
+> An internally defined exception does not have a name unless either PL/SQL gives it one or you give it one.
+
+[Oracle Documentation - Internally Defined Exceptions](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/plsql-error-handling.html)
+
+- E is true:
+> Predefined exceptions are internally defined exceptions that have predefined names, which **PL/SQL declares globally in the package STANDARD**.
+
+[Oracle Documentation - Predefined Exceptions](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/plsql-error-handling.html)
+
+# 017
+
+correct answer is C:
+> ACCESSIBLE BY Hint Syntax: `ACCESSIBLE BY (accessor)`
+> An entity named in an accessor is **not required to exist**.
+```plsql
+create or replace procedure protected_proc
+    accessible by (calling_proc)
+as
+begin
+    dbms_output.put_line('test1: protected_proc');
+end;
+-- Procedure PROTECTED_PROC compiled
+```
+
+# 018
+
+correct answer is A:
+```plsql
+create table employees(emp_id number(10),first_name varchar2(30),last_name varchar2(30),salary number(8,2));
+-- Table EMPLOYEES created.
+
+insert into employees values (200,'john','smith',99999);
+-- 1 row inserted.
+
+declare
+    first_name employees.first_name%type;
+    v_name first_name%type;
+    v_salary number(5);
+    v_empid employees.emp_id%type := 200;
+begin
+    select salary,first_name
+    into v_salary,first_name
+    from employees
+    where emp_id=v_empid;
+end;
+-- PL/SQL procedure successfully completed.
+```
+if the employee with EMP_ID=200 would have a salary higher than 99999, this would happen:
+```plsql
+create table employees(emp_id number(10),first_name varchar2(30),last_name varchar2(30),salary number(8,2));
+-- Table EMPLOYEES created.
+
+insert into employees values (200,'john','smith',100000);
+-- 1 row inserted.
+
+declare
+    first_name employees.first_name%type;
+    v_name first_name%type;
+    v_salary number(5);
+    v_empid employees.emp_id%type := 200;
+begin
+    select salary,first_name
+    into v_salary,first_name
+    from employees
+    where emp_id=v_empid;
+end;
+-- ORA-06502: PL/SQL: numeric or value error: number precision too large
+```
+
+# 019
+
+- A & B are correct:
+    - you can't use a SQL function in a procedure's parameters (`upper(pdt_name_in)`)
+    - DECODE can't be used outside a SQL statement
+```plsql
+create or replace procedure report(upper(pdt_name_in) in products.pdt_name%type) is
+    current_price number:=155.55;
+    new_price number(10,2) := round(current_price + (current_price*0.5));
+    compare_value varchar2(20);
+begin
+    compare_value := decode(new_price,1001,'above 1000','below 1000');
+    dbms_output.put_line(s.nextval|| ' ' || upper('new price') || ' ' || to_char(new_price));
+    dbms_output.put_line(s.currval+1 || ' ' || upper('new price') || ' ' || new_price);
+end;
+-- (first error) PLS-00103: Encountered the symbol "(" when expecting one of the following: in out <an identifier> <a double-quoted delimited-identifier> table
+
+-- (second error) PLS-00204: function or pseudo-column 'DECODE' may be used inside a SQL statement only
+```
+
+# 020
+
+answers D,E,F are correct:
+> You can create triggers for these events:
+> **`AFTER STARTUP`**
+> **`BEFORE SHUTDOWN`**
+> `AFTER DB_ROLE_CHANGE`
+> **`AFTER SERVERERROR`**
+> `AFTER LOGON`
+> `BEFORE LOGOFF`
+> `AFTER SUSPEND`
+> `AFTER CLONE`
+> `BEFORE UNPLUG`
+> `[BEFORE|AFTER] SET CONTAINER`
+
+[Oracle Documentation - CREATE TRIGGER Statement](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/CREATE-TRIGGER-statement.html)
