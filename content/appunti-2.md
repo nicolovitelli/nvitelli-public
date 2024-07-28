@@ -775,3 +775,92 @@ answers D,E,F are correct:
 > - `[BEFORE|AFTER] SET CONTAINER`
 
 [Oracle Documentation - CREATE TRIGGER Statement](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/CREATE-TRIGGER-statement.html)
+
+# 021
+
+- A is false:
+```plsql
+begin
+    update products
+    set prod_list_price = prod_list_price + 100
+    where prod_list_price > 100;
+    dbms_output.put_line(sql%rowcount);
+end;
+-- 13
+```
+
+- B is true:
+> An explicit cursor is a session cursor that you construct and manage. You must declare and define an explicit cursor, giving it a name and associating it with a query (**typically, the query returns multiple rows**).
+
+[Oracle Documentation - Explicit Cursors](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/static-sql.html)
+
+- C & E are incorrect and D is correct:
+> The explicit cursor attributes are:
+> - `%ISOPEN` Attribute: Is the Cursor Open?
+> - `%FOUND` Attribute: Has a Row Been Fetched?
+> - `%NOTFOUND` Attribute: Has No Row Been Fetched?
+> - `%ROWCOUNT` Attribute: How Many Rows Were Fetched?
+
+[Oracle Documentation - Explicit Cursor Attributes](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/static-sql.html)
+
+- F is false:
+> %ISOPEN returns TRUE if its explicit cursor is open; FALSE otherwise.
+
+[Oracle Documetation - %ISOPEN Attribute: Is the Cursor Open?](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/static-sql.html)
+
+- G is true:
+> SQL%ISOPEN always returns FALSE, because an implicit cursor always closes after its associated statement runs.
+
+[Oracle Documentation - SQL%ISOPEN Attribute: Is the Cursor Open?](https://docs.oracle.com/en/database/oracle/oracle-database/19/lnpls/static-sql.html)
+
+# 022
+
+# 023
+
+- A is false
+```plsql
+create or replace package std_const_err_pkg is
+    vtax constant number(3) := 3;
+    e_seq exception;
+    pragma exception_init(-2277,e_seq);
+    e_fk exception;
+    pragma exception_init(-2292,e_fk);
+end;
+-- PLS-00124: name of exception expected for first arg in exception_init pragma
+```
+
+- B is false:
+```plsql
+create or replace package std_const_err_pkg is
+    vtax constant number(3);
+    e_seq exception;
+    pragma exception_init(e_seq,-2277);
+    e_fk exception;
+    pragma exception_init(e_fk,-2292);
+end;
+-- PLS-00322: declaration of a constant 'VTAX' must contain an initialization assignment
+```
+
+- C is correct:
+```plsql
+create or replace package std_const_err_pkg is
+    vtax constant number(3) := 3;
+    e_seq exception;
+    pragma exception_init(e_seq,-2277);
+    e_fk exception;
+    pragma exception_init(e_fk,-2292);
+end;
+-- Package STD_CONST_ERR_PKG compiled
+```
+
+- D is false:
+```plsql
+create or replace package std_const_err_pkg is
+    vtax number constant := 3;
+    e_seq exception;
+    pragma exception_init(e_seq,-2277);
+    e_fk exception;
+    pragma exception_init(e_fk,-2292);
+end;
+-- PLS-00103: Encountered the symbol "CONSTANT" when expecting one of the following: := . ( @ % 
+```
