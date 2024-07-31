@@ -37,8 +37,10 @@ The DISTINCT clause is used to remove duplicates from the result set.
 This clause can only be used within SELECT Statements.
 
 ### Syntax
-SELECT DISTINCT *column_name*
-FROM *table_name*;
+```sql
+SELECT DISTINCT column_name
+FROM table_name;
+```
 
 ### Example
 ```sql
@@ -55,3 +57,18 @@ FROM employees;
 
 ### Sources
 - [Oracle Documentation - SELECT](https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/SELECT.html)
+
+---
+
+## Query Processing Order / Order of Execution
+```sql
+FROM
+WHERE
+GROUP BY
+SELECT
+HAVING
+ORDER BY
+```
+
+### Sources
+- [Oracle SQL and PL/SQL Optimization for Developers - Query Processing Order](https://oracle.readthedocs.io/en/latest/sql/basics/query-processing-order.html)
