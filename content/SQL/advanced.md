@@ -5,14 +5,14 @@ title: Advanced Concepts
 ## Arithmetic Operations on Dates
 Rules
 - Operations between DATE value and Binary Operators
-	- + Addition: adds days to a DATE value; DATE value must be at the left-side.
-	- - Subtraction: subtracts days to a DATE value; DATE value must be at the left-side.
-	- * Multiplication: NOT ALLOWED
+	- \+ Addition: adds days to a DATE value; DATE value must be at the left-side.
+	- \- Subtraction: subtracts days to a DATE value; DATE value must be at the left-side.
+	- \* Multiplication: NOT ALLOWED
 	- / Division: NOT ALLOWED
 - Operations between two DATE values
-	- + Addition: NOT ALLOWED
-	- - Subtraction: Return number of days between the two Dates
-	- * Multiplication: NOT ALLOWED
+	- \+ Addition: NOT ALLOWED
+	- \- Subtraction: Return number of days between the two Dates
+	- \* Multiplication: NOT ALLOWED
 	- / Division: NOT ALLOWED
 
 Supposing SYSDATE is 28-NOV-22:
