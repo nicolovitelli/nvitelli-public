@@ -54,7 +54,7 @@ DROP INDEX index_name;
 ```
 
 **Sources**
-- [Oracle Documentation - DROP INDEX(https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/DROP-INDEX.html)
+- [Oracle Documentation - DROP INDEX](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/DROP-INDEX.html)
 
 ---
 
@@ -68,7 +68,7 @@ To create a Private Synonym, you need privileges depending on where you are crea
 - In your schema: CREATE SYNONYM
 - In another's user schema: CREATE ANY SYNONYM
 
-**Data Dictionary Views**
+**Data Dictionary Views**\
 The following are Data Dictionary Views related to Synonyms:
 - DBA_SYNONYMS
 - ALL_SYNONYMS
@@ -84,13 +84,21 @@ The following are Data Dictionary Views related to Synonyms:
 CREATE [OR REPLACE] [PUBLIC] SYNONYM [schema.]synonym_name
 	FOR [schema.]object_name;
 ```
-
-| **KEYWORD OR ARGUMENT** |                              **DESCRIPTION**                              |   **DATATYPE**   | **OPTIONAL?** |   **DEFAULT VALUE**   |                                                                         **NOTES**                                                                         |
-|:-----------------------:|:-------------------------------------------------------------------------:|:----------------:|:-------------:|:---------------------:|:---------------------------------------------------------------------------------------------------------------------------------------------------------:|
-|        OR REPLACE       |          allows you to recreate the Synonym if it already exists          |         -        |      Yes      |           -           |                                                                             -                                                                             |
-|          PUBLIC         | if specified, the Synonym is a Public Synonym and accessible to all users |         -        |      Yes      |           -           | If omitted, the Synonym will be a Private Synonym.                                                                                                        |
-|          *schema*         |                           the appropriate schema                          | Any String value |      Yes      | Current user's schema |                                                                             -                                                                             |
-| *object\_name* |       the name of the object for which you are creating the Synonym       | Any String value |       No      |           -           | Can be one of the following: table view sequence stored procedure function package materialized view java class schema object user-defined object synonym |
+- OR REPLACE: allows you to recreate the Synonym if it already exists.
+- PUBLIC: if specified, the Synonym is a Public Synonym and accessible to all users, otherwise it'll be a Private Synonym.
+- *schema*: schema on which the Synonym will be created.
+- *object_name*: the name of the object for which you are creating the Synonym. 
+	- Can be one of the following:
+		- table
+		- view
+		- sequence
+		- stored procedure
+		- function
+		- package
+		- materialized view
+		- java class schema object
+		- user-defined object
+		- synonym
 
 **Example**
 ```sql
@@ -122,7 +130,7 @@ A View is a logical representation of a table or combination of tables. In essen
 - All operations performed on a View actually affect the base table of the View.
 - You can use Views in almost the same way as tables. You can query, update, insert into, and delete from Views.
 
-**Restrictions on DML Operations**
+**Restrictions on DML Operations**\
 Rows can be inserted into, updated in, or deleted from a base table using a View. Although there are some restrictions:
 - You need the appropriate privigiles on the base tables to run DML Statements.
 - DML Operations are not allowed on Views with SET or DISTINCT operators, GROUP BY clause, Group Functions or Subqueries.
@@ -134,14 +142,14 @@ Rows can be inserted into, updated in, or deleted from a base table using a View
 	- Rows from a Join View can be deleted can be deleted as long as there is exactly one key-preserved table in the Join. This does not apply on Views with the WITH CHECK OPTION clause.
 	- An INSERT Statement must not explicitly or implicitly refer to the columns of a non-key-preserved table. This does not apply on Views with the WITH CHECK OPTION clause.
 
-**Key-Preserved Tables**
+**Key-Preserved Tables**\
 A table is key-preserved if every key of the table can also be a key of the result of the Join that is based on the table.
 
 Given these two tables:\
-CUSTOMERS
+CUSTOMERS\
 ![CUSTOMERS](https://i.imgur.com/AIUfGT4.png)
 
-ORDERS
+ORDERS\
 ![ORDERS](https://i.imgur.com/dx5XsN0.png)
 
 And the following view:
@@ -151,7 +159,7 @@ SELECT o.order#, o.orderdate, o.shipcost, c.customer#, c.lastname, c.firstname
 FROM orders o JOIN customers c ON o.customer# = c.customer#;
 ```
 
-The key-preserved table is Customers, because customer# is used in the Join condition.
+The key-preserved table is Customers, because customer# is used in the Join condition.\
 Therefore you cannot perform any DML Operation on the Customers table, but only on the Orders table.
 
 ```sql

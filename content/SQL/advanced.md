@@ -3,7 +3,7 @@ title: Advanced Concepts
 ---
 
 ## Arithmetic Operations on Dates
-Rules
+**Rules**
 - Operations between DATE value and Binary Operators
 	- \+ Addition: adds days to a DATE value; DATE value must be at the left-side.
 	- \- Subtraction: subtracts days to a DATE value; DATE value must be at the left-side.
@@ -33,8 +33,8 @@ Supposing SYSDATE is 28-NOV-22:
 ---
 
 ## RRRR vs. YYYY
-- YYYY: first two digits will always be current century. (99 → 2099)
-- RRRR: first two digits depend on range:
+- **YYYY**: first two digits will always be current century. (99 → 2099)
+- **RRRR**: first two digits depend on range:
 	- years in range 00 to 49 are assumed to be in current century (21 → 2021)
 	- years in range 50 to 99 are assumed to be in the previous century (99 → 1999)
 
@@ -44,11 +44,10 @@ There's no difference when working with 4-digits years.
 ---
 
 ## NLS_DATE_FORMAT
-NLS_DATE_FORMAT specifies the default date format to use with the TO_CHAR and TO_DATE functions. The default value of this parameter is determined by NLS_TERRITORY.
+NLS_DATE_FORMAT specifies the default date format to use with the TO_CHAR and TO_DATE functions.\
+The default value of this parameter is determined by NLS_TERRITORY.
 
 The value of this parameter can be any valid date format mask, and the value must be surrounded by double quotation marks. For example:
-
-**Example**
 ```sql
 NLS_DATE_FORMAT = "MM/DD/YYYY"
 ```

@@ -32,7 +32,7 @@ Can be created by two methods:
 - Using the WHERE clause
 - Using the JOIN method with the NATURAL JOIN, JOIN … ON, or JOIN … USING keywords
 
-**Notes about the USING keyword*
+**Notes about the USING keyword**
 - The USING clause specifies which columns to test for equality when two tables are joined.
 
 **Syntax**
@@ -54,8 +54,8 @@ FROM oe.orders o JOIN oe.order_items oi
 ---
 
 ## Non-equality Join
-Joins tables when there are no equivalent rows in the tables to be joined;
-For example, to match values in one column of a table with a range of values in another table.
+Joins tables when there are no equivalent rows in the tables to be joined;\
+For example, to match values in one column of a table with a range of values in another table.\
 Can be created by two methods:
 - Using the WHERE clause
 - Using the JOIN method with the JOIN … ON keywords
@@ -74,7 +74,7 @@ Can be created by two methods:
 ---
 
 ## Outer Join
-Includes records of a table in output when there’s no matching record in the other table.
+Includes records of a table in output when there’s no matching record in the other table.\
 Can be created by two methods:
 - Using the WHERE clause with a (þ) operator
 - Using the JOIN method with the OUTER JOIN keywords and the assigned type of LEFT, RIGHT, or FULL

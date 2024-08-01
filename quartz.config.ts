@@ -8,7 +8,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "appunti",
+    pageTitle: "my-docs",
     enableSPA: true,
     enablePopovers: true,
     analytics: {
