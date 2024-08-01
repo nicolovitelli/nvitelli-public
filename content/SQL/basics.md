@@ -1,5 +1,5 @@
 ---
-title: Retrieving Data using the SQL SELECT Statement
+title: Basics
 ---
 
 ## SELECT Statement
