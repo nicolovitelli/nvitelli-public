@@ -1,5 +1,5 @@
 ---
-title: Basics
+title: Basic Concepts
 ---
 
 ## SELECT Statement
