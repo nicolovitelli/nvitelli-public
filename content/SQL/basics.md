@@ -172,8 +172,8 @@ The DDL Statements are:
 ## CREATE TABLE Statement
 
 ### Syntax
-CREATE TABLE [*schema*.]*tablename*
-    ( *columnname* *datatype* [DEFAULT *value*]
+CREATE TABLE [*schema*.]*tablename*\
+    ( *columnname* *datatype* [DEFAULT *value*]\
     [, *columnname* *datatype* [DEFAULT *value*]] );
 
 ### Sources
@@ -199,3 +199,29 @@ The following table shows the essential differences between them:
 
 ### Sources
 - [Oracle Documentation - Overview of Temporary Tables](https://docs.oracle.com/en/database/oracle/oracle-database/23/cncpt/tables-and-table-clusters.html#GUID-97709804-7430-4BD0-AFF4-727B74F6997E)
+
+---
+
+## Global Temporary Tables
+Use the CREATE GLOBAL TEMPORARY TABLE Statement to create a Global Temporary Table. 
+The definition of a Global Temporary Table is visible to all sessions, but the data in a Global Temporary Table is visible only to the session that inserts the data into the table.
+
+**Notes about Global Temporary Tables**
+- DDL operations (except TRUNCATE) are allowed on an existing temporary table only if no session is currently bound to that temporary table. If you rollback a transaction, the data you entered is lost, although the table definition persists.
+- Indexes can be created on global temporary tables. They are also temporary and the data in the index has the same session or transaction scope as the data in the underlying table.
+
+**The ON COMMIT Clause**
+The ON COMMIT clause indicates if the data in the table is transaction-specific (the default) or session-specific, the implications of which are as follows:
+- DELETE ROWS: The database truncates the table after each commit.
+	- Rows will also be deleted after a failed DDL Statement.
+	- N.B.: only certain failed DDL Statements will delete all rows.
+- PRESERVE ROWS: The database truncates the table when you terminate the session.
+
+**Global Temporary Tables Syntax**
+CREATE GLOBAL TEMPORARY TABLE *global_temp_table_name*
+    (*column_1* *datatype*,
+    *column_2* *datatype*,
+    … *column_n* *datatype*)
+[ON COMMIT DELETE ROWS | PRESERVE ROWS;
+
+---
