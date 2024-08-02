@@ -3,7 +3,7 @@ title: Basic Concepts
 ---
 
 ## SELECT Statement
-```sql /columname/
+```sql /columnname/
 SELECT      [DISTINCT | UNIQUE] (*, columnname [AS alias], …)
 FROM        tablename
 [WHERE      condition]
@@ -12,7 +12,7 @@ FROM        tablename
 [ORDER BY   columnname];
 ```
 
-```sql /columname,tablename/
+```sql /columnname,tablename/
 SELECT      [DISTINCT | UNIQUE] (*, columnname [AS alias], …)
 FROM        tablename
 [WHERE      condition]
