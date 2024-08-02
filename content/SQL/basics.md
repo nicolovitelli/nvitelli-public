@@ -3,14 +3,14 @@ title: Basic Concepts
 ---
 
 ## SELECT Statement
-<pre>
-SELECT      [DISTINCT | UNIQUE] (*, <i>columnname</i> [AS <i>alias</i>], …)
-FROM        <i>tablename</i>
-[WHERE      <i>condition</i>]
-[GROUP BY   <i>group_by_expression</i>]
-[HAVING     <i>group_condition</i>]
-[ORDER BY   <i>columnname</i>];
-</pre>
+<code>
+SELECT      [DISTINCT | UNIQUE] (*, columnname [AS alias], …)
+FROM        *tablename*
+[WHERE      *condition*]
+[GROUP BY   *group_by_expression*]
+[HAVING     *group_condition*]
+[ORDER BY   *columnname*];
+</code>
 
 **Sources**
 - [Oracle Documentation - SELECT](https://docs.oracle.com/en/database/oracle/oracle-database/23/sqlrf/SELECT.html)
