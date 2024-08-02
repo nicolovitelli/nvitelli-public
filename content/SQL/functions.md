@@ -296,3 +296,102 @@ LEAST(expr1 [, expr2, ... expr_n])
 
 **Sources**
 - [Oracle Documentation - LEAST](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/LEAST.html)
+
+---
+
+## Numeric Functions
+The Numeric Functions take a numeric input as an expression and return numeric values.\
+The return type for most of the Numeric Functions is NUMBER.
+
+**List of Numeric Functions covered**
+- CEIL
+- FLOOR
+- MOD
+- POWER
+- REMAINDER
+- ROUND
+- TRUNC
+
+---
+
+## CEIL
+The CEIL (Single-Row) Function returns the smallest integer value that is greater than or equal to a number.
+
+**Syntax**
+```sql
+CEIL(number)
+```
+- *number*: the value used to find the smallest integer value.
+
+**Examples**
+- CEIL(21.65) → 21
+- CEIL(21.21) → 22
+- CEIL(21) → 21
+- CEIL(-21.65) → -21
+
+**Sources**
+- [Oracle Documentation - CEIL](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/CEIL.html)
+
+---
+
+## FLOOR
+The FLOOR (Single-Row) Function returns the largest integer value that is equal to or less than a number.
+
+**Syntax**
+```sql
+FLOOR(number)
+```
+- *number*: the value used to determine the largest integer value that is equal to or less than a number.
+
+**Examples**
+- FLOOR(21.65) → 21
+- FLOOR(21.21) → 21
+- FLOOR(21) → 21
+- FLOOR(-21.65) → -22
+
+**Sources**
+- [Oracle Documentation - FLOOR](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/FLOOR.html)
+
+---
+
+## MOD
+The MOD (Single-Row) Function returns the remainder of m divided by n.
+
+The difference with the REMAINDER function is that REMAINDER uses ROUND in its calculation, and MOD uses the FLOOR function.
+
+**Syntax**
+```sql
+MOD(m, n)
+```
+- *m*: the numeric value used in the calculation.
+- *n*: the numeric value used in the calculation.
+	- MOD returns *m* if *n* is 0.
+
+**Examples**
+- MOD(15, 4) → 3
+- MOD(15, 0) → 0
+- MOD(11.6, 2) → 1.6
+
+**Sources**
+- [Oracle Documentation - MOD](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/MOD.html)
+
+---
+
+## POWER
+The POWER (Single-Row) Function returns m raised to the nth power.
+
+**Syntax**
+```sql
+POWER(m, n)
+```
+- *m*: the base used in the calculation.
+	- if *m* s negative, then *n* must be an integer.
+- *n*: the exponent used in the calculation.
+
+**Examples**
+- POWER(3, 2) → 9
+- POWER(5, 3) → 125
+- POWER(-5, 3) → -125
+
+**Sources**
+- [Oracle Documentation - POWER](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/POWER.html)
