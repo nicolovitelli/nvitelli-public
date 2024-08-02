@@ -2,17 +2,17 @@
 title: Basic Concepts
 ---
 
-```sql /useState/
-SELECT      [DISTINCT | UNIQUE] (*, *columnname* [AS alias], …)
-FROM        *tablename*
-[WHERE      *condition*]
-[GROUP BY   **group_by_expression**]
+## SELECT Statement
+```sql /columname/
+SELECT      [DISTINCT | UNIQUE] (*, columnname [AS alias], …)
+FROM        tablename
+[WHERE      condition]
+[GROUP BY   group_by_expression]
 [HAVING     group_condition]
 [ORDER BY   columnname];
 ```
 
-## SELECT Statement
-```sql
+```sql /columname,tablename/
 SELECT      [DISTINCT | UNIQUE] (*, columnname [AS alias], …)
 FROM        tablename
 [WHERE      condition]
