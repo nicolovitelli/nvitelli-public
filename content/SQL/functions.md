@@ -395,3 +395,405 @@ POWER(m, n)
 
 **Sources**
 - [Oracle Documentation - POWER](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/POWER.html)
+
+---
+
+## REMAINDER
+The REMAINDER (Single-Row) Function returns the remainder of m divided by n.
+
+The difference with the MOD function is that REMAINDER uses ROUND in its calculation, and MOD uses the FLOOR function.
+
+The REMAINDER is calculated as follows:\
+m - (n * X)\
+where X is the integer nearest n / n
+
+**Syntax**
+```sql
+REMAINDER(m, n)
+```
+- *m*: a numeric value used in the calculation.
+- *n*: a numeric value used in the calculation.
+
+**Examples**
+- REMAINDER(15, 6) → 3
+- REMAINDER(15, 5) → 0
+- REMAINDER(15, 4) → -1
+
+**Sources**
+- [Oracle Documentation - REMAINDER](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/REMAINDER.html)
+
+---
+
+## ROUND (number)
+The ROUND (Single-Row) Function returns a number rounded to a certain number of decimal places.
+
+**Syntax**
+```sql
+ROUND(number [, decimal_places])
+```
+- *number*: the number to round.
+- *decimal_places*: the number of decimal places rounded to.
+	- if omitted, the ROUND function will round the number to 0 decimal places
+	- ff negative, rounds a number one digit to the left of the decimal point
+
+**Example**
+```sql
+SELECT ROUND(152.3435, -1)
+FROM dual;
+-- 150
+```
+
+**Sources**
+- [Oracle Documentation - ROUND (number)](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/ROUND-number.html)
+
+---
+
+## TRUNC (number)
+The TRUNC (Single-Row) Function returns a number truncated to a certain number of decimal places.
+
+**Syntax**
+```sql
+TRUNC(number [, decimal_places])
+```
+- *number*: the number to truncate
+- *decimal_places*: the number of decimal places to truncate to
+	- if omitted, the TRUNC function will truncate the number to 0 decimal places
+	- if negative, replaces digits to the left of the decimal point with 0
+
+**Example**
+```sql
+SELECT TRUNC(152.3435, -1)
+FROM dual;
+-- 150
+```
+
+**Sources**
+- [Oracle Documentation - TRUNC (number)](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/TRUNC-number.html)
+
+---
+
+## Date Functions
+Character functions can be used to manipulate temporal values.
+
+**List of Date Functions covered**
+- ADD_MONTHS
+- CURRENT_DATE
+- CURRENT_TIMESTAMP
+- DBTIMEZONE
+- LAST_DAY
+- LOCALTIMESTAMP
+- MONTHS_BETWEEN
+- NEXT_DAY
+- ROUND
+- SESSIONTIMEZONE
+- SYSDATE
+- SYSTIMESTAMP
+- TRUNC
+
+---
+
+## ADD_MONTHS
+The ADD_MONTHS (Single-Row) Function returns a date with a specified number of months added.
+
+**Syntax**
+```sql
+ADD_MONTHS(date1, number_months)
+```
+- *date1*: the starting date (before the *n* months have been added)
+- *number_months*: number of months to add to *date1*
+
+**Sources**
+- [Oracle Documentation - ADD_MONTHS](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/ADD_MONTHS.html)
+
+---
+
+## CURRENT_DATE
+CURRENT_DATE returns the current date in the session time zone, in a value in the Gregorian calendar of data type DATE.
+
+**Example**
+```sql
+SELECT CURRENT_DATE
+FROM DUAL;
+-- 06-DEC-2022
+```
+
+**Sources**
+- [Oracle Documentation - CURRENT_DATE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/CURRENT_DATE.html)
+
+---
+
+## CURRENT_TIMESTAMP
+CURRENT_TIMESTAMP returns the current date and time in the session time zone, in a value of data type TIMESTAMP WITH TIME ZONE. The time zone offset reflects the current local time of the SQL session.
+
+**Example**
+```sql
+SELECT CURRENT_TIMESTAMP
+FROM DUAL;
+-- 06-DEC-22 03.20.35.553971000 PM EUROPE/BERLIN
+```
+
+**Sources**
+- [Oracle Documentation - CURRENT_TIMESTAMP](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/CURRENT_TIMESTAMP.html)
+
+---
+
+## DBTIMEZONE
+DBTIMEZONE returns the value of the database time zone.
+
+**Example**
+```sql
+SELECT DBTIMEZONE
+FROM DUAL;
+-- +00:00
+```
+
+**Sources**
+- [Oracle Documentation - DBTIMEZONE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/DBTIMEZONE.html)
+
+---
+
+## LAST_DAY
+The LAST_DAY (Single-Row) Function returns the last day of the month based on a date value.
+
+**Syntax**
+```sql
+LAST_DAY(date)
+```
+- *date*: the date value to use to calculate the last day of the month
+
+**Examples**
+- LAST_DAY(TO_DATE('01-DEC-2022')) → 31-DEC-2022
+- LAST_DAY(TO_DATE('31-DEC-2022')) → 31-DEC-2022
+
+**Sources**
+- [Oracle Documentation - LAST_DAY](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/LAST_DAY.html)
+
+---
+
+## LOCALTIMESTAMP
+LOCALTIMESTAMP returns the current date and time in the session time zone in a value of data type TIMESTAMP.
+
+**Example**
+```sql
+SELECT LOCALTIMESTAMP
+FROM DUAL;
+-- 06-DEC-22 03.20.04.446137000 PM
+```
+
+**Sources**
+- [Oracle Documentation - LOCALTIMESTAMP](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/LOCALTIMESTAMP.html)
+
+---
+
+## CURRENT_DATE vs. CURRENT_TIMESTAMP vs. LOCALTIMESTAMP
+![CURRENT_DATE vs. CURRENT_TIMESTAMP vs. LOCALTIMESTAMP](https://i.imgur.com/UWZEQr7.png)
+
+---
+
+## MONTHS_BETWEEN
+The MONTHS_BETWEEN (Single-Row) Function returns the number of months between date1 and date2.
+
+**Syntax**
+```sql
+MONTHS_BETWEEN(date1, date2)
+```
+- *date1*: the first date used to calculate the number of months between.
+- *date2*: the second date used to calculate the number of months between.
+
+**Examples**
+- MONTHS_BETWEEN(TO_DATE('01-DEC-2022'), TO_DATE('01-JAN-2023')) → -1
+- MONTHS_BETWEEN(TO_DATE('01-DEC-2022'), TO_DATE('01-NOV-2022')) → 1
+- MONTHS_BETWEEN(TO_DATE('01-DEC-2022'), TO_DATE('31-DEC-2022')) → 0.96
+
+**Sources**
+- [Oracle Documentation - MONTHS_BETWEEN](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/MONTHS_BETWEEN.html)
+
+---
+
+## NEXT_DAY
+The NEXT_DAY (Single-Row) Function returns the first weekday that is greater than a date.
+
+**Syntax**
+```sql
+NEXT_DAY(date, weekday)
+```
+- *date*: a date value used to find the next weekday.
+- *weekday*: the day of the week that you wish to return.
+	- must be one of the following:
+		- SUNDAY or SUN
+		- MONDAY or MON
+		- TUESDAY or TUE
+		- WEDNESDAY or WED
+		- THURSDAY or THU
+		- FRIDAY or FRI
+		- SATURDAY or SAT
+
+**Examples**\
+*Considering 6 December 2022 was a Tuesday:*
+- NEXT_DAY(TO_DATE('06-DEC-2022'), 'Sunday') → 11-DEC-2022
+- NEXT_DAY(TO_DATE('06-DEC-2022'), 'Tuesday') → 13-DEC-2022
+
+**Sources**
+- [Oracle Documentation - NEXT_DAY](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/NEXT_DAY.html)
+
+---
+
+## ROUND (date)
+The ROUND (Single-Row) Function returns a date rounded to a specific unit of measure.
+
+**Syntax**
+```sql
+ROUND(date [, format])
+```
+- *date*: the date to round.
+- *format*: the unit of measure to apply for rounding.
+	- if omitted, the function will round to the nearest day
+	- must be one of the following values: [(complete list)](https://prnt.sc/eusrvY7iTSvr)
+
+**Examples**
+- ROUND(TO_DATE('01-NOV-2022'), 'YEAR') → 01-JAN-2023
+- ROUND(TO_DATE('16-NOV-2022'), 'MONTH') → 01-DEC-2022
+- ROUND(TO_DATE('16-NOV-2022')) → 16-NOV-2022
+
+**Sources**
+- [Oracle Documentation - ROUND (date)](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/ROUND-date.html)
+
+---
+
+## SESSIONTIMEZONE
+SESSIONTIMEZONE returns the time zone of the current session.
+
+**Example**
+```sql
+SELECT SESSIONTIMEZONE
+FROM DUAL;
+-- Europe/Berlin
+```
+
+**Sources**
+- [Oracle Documentation - SESSIONTIMEZONE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/SESSIONTIMEZONE.html)
+
+---
+
+## SYSDATE
+SYSDATE returns the current date and time set for the operating system on which the database server resides.
+
+The data type of the returned value is DATE, and the format returned depends on the value of the NLS_DATE_FORMAT initialization parameter.
+
+**Example**
+```sql
+SELECT SYSDATE
+FROM DUAL;
+-- 06-DEC-2022
+```
+
+**Sources**
+- [Oracle Documentation - SYSDATE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/SYSDATE.html)
+
+---
+
+## SYSTIMESTAMP
+SYSTIMESTAMP returns the system date, including fractional seconds and time zone, of the system on which the database resides.
+
+The return type is TIMESTAMP WITH TIME ZONE.
+
+**Example**
+```sql
+SELECT SYSTIMESTAMP
+FROM DUAL;
+-- 06-DEC-2022 03.41.91.693169000 PM +01:00
+```
+
+**Sources**
+- [Oracle Documentation - SYSTIMESTAMP](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/SYSTIMESTAMP.html)
+
+---
+
+## INTERVAL
+The INTERVAL datatype allows you to store periods of time.
+
+There are two types of INTERVAL:
+- **INTERVAL YEAR TO MONTH**: stores intervals using year and month;
+- **INTERVAL DAY TO SECOND**: stores intervals using days, hours, and seconds including fractional seconds.
+
+**Sources**
+- [Oracle Documentation - Interval Expressions](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/Interval-Expressions.html)
+- [Oracle Documentation - Interval Literals](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/Literals.html)
+
+---
+
+## INTERVAL YEAR TO MONTH
+The INTERVAL YEAR TO MONTH data type allows you to store a period of time using the YEAR and MONTH fields.
+
+**Syntax**
+```sql
+INTERVAL YEAR [(year_precision)] TO MONTH
+```
+- *year_precision*: number of digits in the YEAR field (*ranges from 0 to 9*).
+
+**Literals Syntax**
+```sql
+INTERVAL 'year[-month]' leading(precision) TO trailing
+```
+- *leading* and *trailing* can only be YEAR or MONTH.
+- If *leading* is YEAR and *trailing* is MONTH, then the MONTH field ranges from 0 to 11.
+- The *trailing* field must be less than the *leading* field.
+- *precision* represents the number of digits in the *leading* field. (ranges from 0 to 9; default is 2).
+
+**Literals Examples**
+- INTERVAL '120-3' YEAR(3) TO MONTH → 120 Years and 3 Months.
+- INTERVAL '105' YEAR(3) → 105 Years.
+- INTERVAL '500' MONTH(3) → 500 Months.
+- INTERVAL '9' YEAR → 9 Years.
+- INTERVAL '180' YEAR → Invalid; must specify the precision because it's greater than default's value.
+
+**Sources**
+- [Oracle Documentation - INTERVAL YEAR TO MONTH](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/Literals.html)
+
+---
+
+## INTERVAL DAY TO SECOND
+The INTERVAL DAY TO SECOND stores a period of time in terms of days, hours, minutes, and seconds.
+
+**Syntax**
+```sql
+INTERVAL DAY [(day_precision)] TO SECOND [(fractional_seconds_precision)]
+```
+- *day_precision*: number of digits in the DAY field (*ranges from 0 to 9*).
+- *fractional_seconds_precision*: number of digits in the fractional part of the SECOND field (*ranges from 0 to 9*).
+
+**Literals Syntax**
+```sql
+INTERVAL leading(leading_precision) TO trailing(fractional_seconds_precision)
+```
+
+**Literals Examples**
+- INTERVAL '11 10:09:08.555' DAY TO SECOND(3) → 11 Days, 10 Hours, 9 Minutes, 8 Seconds and 555 Thousandths of a Second.
+- INTERVAL '11 10:09' DAY TO MINUTE → 11 Days, 10 Hours and 9 Minutes.
+- INTERVAL '100 10' DAY(3) TO HOUR → 100 Days and 10 Hours.
+- INTERVAL '999' DAY(3) → 999 Days.
+- INTERVAL '8' HOUR → 8 Hours.
+- INTERVAL '09:30' HOUR TO MINUTE → 9 Hours and 30 Minutes.
+
+**Sources**
+- [Oracle Documentation - INTERVAL DAY TO SECOND](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/Literals.html)
+
+---
+
+## TRUNC (date)
+The TRUNC (Single-Row) Function returns a date truncated to a specific unit of measure.
+
+**Syntax**
+```sql
+TRUNC(date [, format])
+```
+- *date*: the date to truncate.
+- *format*: the unit of measure to apply for truncating.
+	- if omitted, the function will truncate the date to the day value, so that any hours, minutes, or seconds will be truncated off
+	- Must be one of the following values: [(complete list)](https://prnt.sc/sUPMMLZAJivS)
+
+**Oracle Live SQL**
+- [TRUNC (date)](https://livesql.oracle.com/apex/livesql/s/bbwa5b00l6a1p8bxh838e1iut)
+
+**Sources**
+- [Oracle Documentation - TRUNC (date)](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/TRUNC-date.html)
