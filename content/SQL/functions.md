@@ -797,3 +797,461 @@ TRUNC(date [, format])
 
 **Sources**
 - [Oracle Documentation - TRUNC (date)](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/TRUNC-date.html)
+
+---
+
+## NULL-Related Functions
+NULL-Related functions are used to handle NULL values.
+
+**List of NULL-Related Functions covered**
+- NVL
+- DECODE
+- NVL2
+- COALESCE
+- NULLIF
+
+---
+
+## NVL
+The NVL (Single-Row) Function lets you substitute a value when a NULL value is encountered.
+
+**Syntax**
+```sql
+NVL(string1, replace_with)
+```
+- *string1*: the string to test for a NULL value.
+- *replace_with*: the value returned if string1 is NULL.
+	- dataype must be the same as *string1*
+
+**Examples**
+- NVL(NULL, 'Hello') → Hello
+- NVL('Hello', 'Hello2') → Hello
+
+**Sources**
+- [Oracle Documentation - NVL](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/NVL.html)
+
+---
+
+## DECODE
+The DECODE (Single-Row) Function has the functionality of an IF-THEN-ELSE statement.
+
+**Notes**
+- The function returns a value that is the same data type as the first result in the list.
+- If the first result is NULL, then the return vlue is converted to VARCHAR2.
+- If the first result has a data type of CHAR, then the return value is converted to VARCHAR2.
+
+**Syntax**
+```sql
+DECODE(expression, search, result, [, search, result]... [, default])
+```
+- *expression*: the value to compare.
+- *search*: the value that is compared against *expression*.
+- *result*: the value returned, if *expression* is equal to *search*.
+- *default*: if no matches are found, the DECODE function will return *default*.
+
+**Examples**
+```sql
+SELECT supplier_name,
+DECODE(supplier_id, 10000, 'IBM',
+                    10001, 'Microsoft',
+                    10002, 'Hewlett Packard',
+                    'Gateway') result
+FROM suppliers;
+```
+
+The above code would be equivalent to:
+```
+IF supplier_id = 10000 THEN
+   result := 'IBM';
+
+ELSIF supplier_id = 10001 THEN
+   result := 'Microsoft';
+
+ELSIF supplier_id = 10002 THEN
+   result := 'Hewlett Packard';
+
+ELSE
+   result := 'Gateway';
+
+END IF;
+```
+
+**Sources**
+- [Oracle Documentation - DECODE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/DECODE.html)
+
+---
+
+## CASE
+The CASE Statement has the functionality of an IF-THEN-ELSE statement.
+
+**Notes**
+- The CASE Statement returns any datatype such as a String, Numeric, Date, etc.
+- All conditions must be the same datatype.
+- All results must be the same datatype.
+- If ELSE is omitted, the CASE Statement will return NULL if no condition is found to be true.
+- You can have up to 255 comparisons in a CASE Statement (each WHEN ... THEN clause is considered 2 comparisons).
+
+**Syntax**
+```sql
+CASE [expression]
+	WHEN condition_1 THEN result_1
+	WHEN condition_2 THEN result_2
+	...
+	WHEN condition_n THEN result_n
+	[ELSE result]
+END
+```
+- *expression*: the value that you are comparing to the list of conditions.
+- *condition_1, condition_2, … condition_n*: the conditions that must all be the same datatype. Conditions are evaluated in the order listed.
+- *result_1, result_2, ... result_n*: results that must all be the same datatype. This is the value returned once a condition is found to be true.
+
+**Oracle Live SQL**
+- [CASE](https://livesql.oracle.com/apex/livesql/s/bbwavt945vu7c8247nodxt2r2)
+
+**Sources**
+- [Oracle Documentation - CASE Statement](https://docs.oracle.com/en/database/oracle/oracle-database/21/lnpls/CASE-statement.html)
+
+---
+
+## NVL2
+The NVL2 (Single-Row) Function lets you substitutes a value when a NULL value is encountered as well as when a non-NULL value is encountered.
+
+**Syntax**
+```sql
+NVL2(string1, value_if_not_null, value_if_null)
+```
+- *string1*: the string to test for a NULL value.
+- *value_if_not_null*: the value returned if *string1* is **not** NULL.
+- *value_if_null*: the value returned if *string1* is NULL.
+
+**Examples**
+- NVL2(NULL, 'Hello', 'Hello2') → Hello2
+- NVL2('Hello!', 'Hello', 'Hello2') → Hello
+
+**Oracle Live SQL**
+- [NVL2](https://livesql.oracle.com/apex/livesql/s/bbwceaiyt1n3eev61bx75efax)
+
+**Sources**
+- [Oracle Documentation - NVL2](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/NVL2.html)
+
+---
+
+## COALESCE
+The COALESCE (Single-Row) Function returns the first non-null expression in the list.\
+If all expressions evaluate to NULL, then the COALESCE function will return NULL.
+
+**Syntax**
+```sql
+COALESCE(expression1, expression2, ... expression_n)
+```
+- *expression1, expression2, ... expression_n*: the expressions to test for non-NULL values.
+	- the expressions must all be the same datatype
+
+**Example**
+```sql
+SELECT COALESCE( address1, address2, address3 ) result
+FROM suppliers;
+```
+
+The above code would be equivalent to:
+```
+IF address1 is not null THEN
+   result := address1;
+
+ELSIF address2 is not null THEN
+   result := address2;
+
+ELSIF address3 is not null THEN
+   result := address3;
+
+ELSE
+   result := null;
+
+END IF;
+```
+
+**Sources**
+- [Oracle Documentation - COALESCE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/COALESCE.html)
+
+---
+
+## NULLIF
+The NULLIF (Single-Row) Function compares *expr1* and *expr2*. If *expr1* and *expr2* are equal, the NULLIF function returns NULL. Otherwise, it returns *expr1*.
+
+**Syntax**
+```sql
+NULLIF(expr1, expr2)
+```
+- *expr1*: first value to compare.
+	- cannot be a literal NULL.
+- *expr2*: second value to compare.
+
+**Oracle Live SQL**
+- [NULLIF](https://livesql.oracle.com/apex/livesql/s/pb4n0u12ahoqipilw1e74cu3k)
+
+**Sources**
+- [Oracle Documentation - NULLIF](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/NULLIF.html)
+
+---
+
+## Aggregate Functions
+Aggregate (or Group) Functions return a single result row based on groups of rows, rather than on single rows.
+
+They are commonly used with the GROUP BY clause in a SELECT statement, where Oracle Database divides the rows of a queried table or view into groups.\
+If you omit the GROUP BY clause, then Oracle applies Aggregate Functions in the select list to all the rows in the queried table or view.
+
+**Notes about Aggregate Functions**
+- Aggregate Functions can appear in select lists and in ORDER BY and HAVING clauses.
+- You use Aggregate Functions in the HAVING clause to eliminate groups from the output based on the results of the Aggregate Functions.
+- All Aggregate Functions except COUNT(\*) ignore NULLs.
+-  COUNT never returns NULL, but returns either a number or zero.
+
+Many Aggregate Functions accept these clauses:
+- DISTINCT and UNIQUE (which are synonymous) cause an aggregate function to consider only distinct values of the argument expression.
+- ALL causes an aggregate function to consider all values, including all duplicates.
+
+If both are ommitted, default clause is ALL.
+
+**Example**
+- DISTINCT average of: 1, 1, 1, and 3 → 2 ([1+3]/2)
+- ALL average of: 1, 1, 1, and 3 → 1.5 ([1+1+1+3]/4)
+
+**List of Aggregate Functions covered**
+- COUNT
+- AVG
+- SUM
+- MAX
+- MIN
+- LISTAGG
+- STDDEV
+- VARIANCE
+
+**Sources**
+- [Oracle Documentation - Aggregate Functions](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/Aggregate-Functions.html)
+
+---
+
+## COUNT
+The COUNT (Aggregate) Function returns the count of an expression.
+
+**Syntax**
+```sql
+SELECT COUNT([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+```
+
+**Syntax with more than one column**
+```sql
+SELECT expression1, expression2, ... expression_n,
+COUNT([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+GROUP BY expression1, expression2, ... expression_n;
+```
+- *expression1, expression2, ... expression_n*: expressions that are **not** encapsulated within the COUNT function must be included in the GROUP BY clause.
+- *aggregate_expression*: the column or expression whose non-NULL values will be counted.
+	- NULL values are ignored
+
+**Notes about COUNT**
+- The COUNT function always returns a numeric value.
+
+**Sources**
+- [Oracle Documentation - COUNT](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/COUNT.html#GUID-AEF08B79-024D-4E3A-B362-9715FB011776)
+
+---
+
+## AVG
+The AVG (Aggregate) Function returns the average value of an expression.
+
+**Syntax**
+```sql
+SELECT AVG([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+```
+
+**Syntax with more than one column**
+```sql
+SELECT expression1, expression2, ... expression_n,
+AVG([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+GROUP BY expression1, expression2, ... expression_n;
+```
+- *expression1, expression2, ... expression_n*: expressions that are **not** encapsulated within the AVG function must be included in the GROUP BY clause.
+- *aggregate_expression*: the column or expression that will be averaged.
+	- NULL values are ignored
+
+**Notes about AVG**
+- The AVG function returns a numeric value.
+- If *aggregate_expression* is a String, returns `ORA-01722: invalid number`
+- If *aggregate_expression* is a Date, returns `ORA-00932: inconsistent datatypes: expected NUMBER got DATE`
+
+**Sources**
+- [Oracle Documentation - AVG](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/AVG.html)
+
+---
+
+## MAX
+The MAX (Aggregate) Function returns the maximum value of an expression.
+
+**Syntax**
+```sql
+SELECT MAX([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+```
+
+**Syntax with more than one column**
+```sql
+SELECT expression1, expression2, ... expression_n,
+MAX([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+GROUP BY expression1, expression2, ... expression_n;
+```
+- *expression1, expression2, ... expression_n*: expressions that are **not** encapsulated within the MAX function must be included in the GROUP BY clause. 
+- *aggregate_expression*: the column or expression from which the maximum value will be returned.
+	- NULL values are ignored
+
+**Notes about MAX**
+- The MAX function returns either a string/numeric/date value.
+
+**Sources**
+- [Oracle Documentation - MAX](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/MAX.html)
+
+---
+
+## MIN
+The MIN (Aggregate) Function returns the minimum value of an expression.
+
+**Syntax**
+```sql
+SELECT MIN([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+```
+
+**Syntax with more than one column**
+```sql
+SELECT expression1, expression2, ... expression_n, 
+MIN([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+GROUP BY expression1, expression2, ... expression_n;
+```
+- *expression1, expression2, ... expression_n*: expressions that are **not** encapsulated within the MAX function must be included in the GROUP BY clause.
+- *aggregate_expression*: the column or expression from which the minimum value will be returned.
+	- NULL values are ignored
+
+**Notes about MIN**
+- The MIN function returns either a string/numeric/date value.
+
+**Sources**
+- [Oracle Documentation - MIN](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/MIN.html)
+
+---
+
+## LISTAGG
+The LISTAGG (Aggregate) Function concatenates values of the *measure_column* for each GROUP based on the *order_by_clause*.
+
+**Syntax**
+```sql
+LISTAGG(measure_column [, 'delimeter'])
+	WITHIN GROUP (order_by_clause)
+```
+- *measure_column*: the column or expression whose values you wish to concatenate together in the result set.
+- *delimeter*: the delimeter to use when separating the *measure_column*.
+- *order_by_clause*: determines the order that the concatenated values are returned.
+
+**Notes about LISTAGG**
+- NULL values in the *measure_column* are ignored
+- *delimeter*'s default value is blank space
+
+**Example**
+![listagg-example1](https://i.imgur.com/nm5cAHr.png)
+
+```sql
+SELECT LISTAGG(product_name, ', ')
+    WITHIN GROUP (ORDER BY product_name) "Product_Listing"
+FROM products;
+-- Apples, Bananas, Oranges, Pears
+```
+
+**Sources**
+- [Oracle Documentation - LISTAGG](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/LISTAGG.html)
+
+---
+
+## SUM
+The SUM (Aggregate) Function returns the summed value of an expression.
+
+**Syntax**
+```sql
+SELECT SUM([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+```
+
+**Syntax with more than one column**
+```sql
+SELECT expression1, expression2, ... expression_n, 
+SUM([DISTINCT | ALL] aggregate_expression)
+FROM tablename
+[WHERE condition];
+GROUP BY expression1, expression2, ... expression_n;
+```
+- *expression1, expression2, ... expression_n*: expressions that are not encapsulated within the MIN function must be included in the GROUP BY clause.
+- *aggregate_expression*: the column or expression that will be summed.
+
+**Notes about SUM**
+- The SUM function returns a numeric value.
+- NULL values in the *aggregate_expression* are ignored.
+- If *aggregate_expression* is a String, returns `ORA-01722: invalid number`
+- If *aggregate_expression* is a Date, returns `ORA-00932: inconsistent datatypes: expected NUMBER got DATE`
+
+**Sources**
+- [Oracle Documentation - SUM](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/SUM.html)
+
+---
+
+## Conversion Functions
+Conversion Functions convert a value from one form to another.
+
+**List of Conversion Functions covered**
+- TO_NUMBER
+- TO_CHAR
+- TO_DATE
+
+---
+
+## TO_NUMBER
+The TO_NUMBER (Conversion) Function converts expr to a value of NUMBER data type.
+
+**Syntax**
+```sql
+TO_NUMBER(string, [,format_mask])
+```
+
+**Format Mask**
+[...]
+
+**Sources**
+- [Oracle Documentation - TO_NUMBER](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/TO_NUMBER.html)
+
+---
+
+## TO_DATE
+The TO_DATE (Conversion) Function converts a string to a date.
+
+**Syntax**
+```sql
+TO_DATE(string, [,format_mask])
+```
+- *string*: the string that will be converted to a date.
+- *format_mask*: the format that will be used to convert *string* to a date.
+	- must be one or a combination of the [following values](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/Format-Models.html#GUID-4EF054FF-9996-4637-8476-136FC7A8246D).
+
+**Sources**
+- [Oracle Documentation - TO_DATE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/TO_DATE.html)

@@ -61,3 +61,105 @@ WHERE PARAMETER = 'NLS_DATE_FORMAT';
 
 **Sources**
 - [Oracle Documentation - NLS_DATE_FORMAT](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/NLS_DATE_FORMAT.html)
+
+---
+
+## Substitution Variables
+
+**Syntax**
+```sql
+-- Definining a new Substitution Variables:
+DEFINE variable_name = variable_value;
+
+-- Confirming the variable definition:
+DEFINE variable_name;
+
+-- Listing all Substitution Variables:
+DEFINE;
+
+-- Deleting a Substitution Variables:
+UNDEFINE variable_name;
+
+-- Referencing to a Substitution Variables:
+SELECT &variable_name_1
+FROM &variable_name_2;
+```
+
+**Notes about Substitution Variables**
+- You can use Substitution Variables anywhere in SQL and SQL\*PLUS commands.
+- When SQL\*PLUS encounters an undefined Substitution Variables in a command, SQL\*PLUS prompts you for the value.
+
+
+**SET Command**
+- After you enter a value at the prompt, SQL\*PLUS lists the line containing the Substitution Variable twice: once before substituing the valeu you enter and once after substitution.
+- You can suppress this listing by setting the SET command variable VERIFY to OFF.
+
+**Example**
+![sv-ex1](https://i.imgur.com/7WfjnkR.png)
+
+**Difference between "&" and "&&"**
+If a single ampersand prefix is used with an undefined variable, the value you enter at the prompt is not stored. Immediately after the value is substituted in the statement the variable is discarded and remains undefined.\
+If the variable is referenced twice, even in the same statement, then you are prompted twice.
+
+**Example**
+![sv-ex2](https://i.imgur.com/QX29uX0.png)
+
+If a double ampersand reference causes SQL\*Plus to prompt you for a value, then SQL\*Plus defines the variable as that value (that is, the value is stored until you exit).
+Any subsequent reference to the variable (even in the same command) using either "&" or "&&" substitutes the newly defined value.
+SQL\*Plus will not prompt you again:
+
+**Example**
+![sv-ex3](https://i.imgur.com/SCYfLFH.png)
+
+**Sources**
+- [Oracle Documentation - Using Substitution Variables](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqpug/using-substitution-variables-sqlplus.html)
+- [Oracle Documentation - DEFINE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqpug/DEFINE.html)
+- [Oracle Documentation - UNDEFINE](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqpug/UNDEFINE.html)
+- [Oracle Documentation - SET VERIFY](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqpug/SET-system-variable-summary.html#GUID-74CA1665-165D-4C0D-BBB2-681BD3485211)
+
+---
+
+## PIVOT
+The PIVOT clause allows you to write a cross-tabulation query. This means that you can aggregate your results and rotate rows into columns.
+
+**Syntax**
+```sql
+SELECT * FROM
+(
+	SELECT column1, column2
+	FROM tables
+	WHERE condition
+)
+PIVOT
+(
+	aggregate_function(column2)
+	FOR column2
+	IN (expression1, expression2, ... expression_n) | subquery
+)
+ORDER BY expression [ASC | DESC];
+```
+
+**Example**
+```sql
+-- Given the data from this query:
+SELECT * FROM CO.CUSTOMER_ORDER_PRODUCTS;
+
+-- Executing the following query returns the total number of Orders Cancelled and Completed for each Customer:
+SELECT * FROM
+(
+SELECT CUSTOMER_ID, FULL_NAME, ORDER_STATUS
+FROM CO.CUSTOMER_ORDER_PRODUCTS
+)
+PIVOT
+(
+    COUNT(ORDER_STATUS)
+    FOR ORDER_STATUS IN ('CANCELLED', 'COMPLETE')
+)
+ORDER BY FULL_NAME;
+```
+
+**Oracle Live SQL**
+- [PIVOT](https://livesql.oracle.com/apex/livesql/s/o9mqx91fxkq3wxpgdcemy4jko)
+
+**Sources**
+- [SELECT: pivot_clase](https://docs.oracle.com/en/database/oracle/oracle-database/21/sqlrf/SELECT.html#GUID-CFA006CA-6FF1-4972-821E-6996142A51C6)
