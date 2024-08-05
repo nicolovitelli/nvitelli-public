@@ -4,10 +4,12 @@ title: Transactions
 
 A Transaction is a logical, atomic unit of work that contains one or more SQL statements
 
-A Transaction groups SQL statements so that they are either all committed, which means they are applied to the database, or all rolled back, which means they are undone from the database. Oracle Database assigns every transaction a unique identifier called a transaction ID.
+A Transaction groups SQL statements so that they are either all committed, which means they are applied to the database, or all rolled back, which means they are undone from the database.\
+Oracle Database assigns every transaction a unique identifier called a transaction ID.
 
-**ACID**
-All Oracle transactions obey the basic properties of a database transaction, known as ACID properties. ACID is an acronym for the following:
+**ACID**\
+All Oracle transactions obey the basic properties of a database transaction, known as ACID properties.\
+ACID is an acronym for the following:
 
 - **Atomicity**: All tasks of a Transaction are performed or none of them are. There are no partial Transactions.
 For example, if a Transaction starts updating 100 rows, but the system fails after 20 updates, then the Database rolls back the changes to these 20 rows.
