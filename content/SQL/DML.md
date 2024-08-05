@@ -1,5 +1,5 @@
 ---
-title: DML – Data Manipulation Language
+title: DML Statements
 ---
 
 Data Manipulation Language (DDL) statements access and manipulate data in existing schema objects.

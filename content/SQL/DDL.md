@@ -1,5 +1,5 @@
 ---
-title: DDL - Data Definition Language
+title: DDL Statements
 ---
 
 Data Definition Language (DDL) statements let you to perform these tasks:
