@@ -50,23 +50,23 @@ Dynamic Performance Views start with the prefix V_$ or their public synonym coun
 
 ## Checking Privileges in the Data Dictionary
 Privileges can be inspected using the following views:
-- USER_SYS_PRIVS: System privileges granted to the current user
-- USER_TAB_PRIVS: Granted privileges on objects for which the user is the owner, grantor or grantee.
-- USER_ROLE_PRIVS: Roles granted to the current user.
-- DBA_SYS_PRIVS: System privileges granted to users and roles.
-- DBA_TAB_PRIVS: All grants on objects in the Database.
-- DBA_ROLE_PRIVS: Role granted to users and roles.
-- ROLE_SYS_PRIVS: System privileges granted to roles.
-- ROLE_TAB_PRIVS: Table privileges granted to roles.
-- SESSION_PRIVS: Session privileges that the user currenlty has set.
+- `USER_SYS_PRIVS`: System privileges granted to the current user
+- `USER_TAB_PRIVS`: Granted privileges on objects for which the user is the owner, grantor or grantee.
+- `USER_ROLE_PRIVS`: Roles granted to the current user.
+- `DBA_SYS_PRIVS`: System privileges granted to users and roles.
+- `DBA_TAB_PRIVS`: All grants on objects in the Database.
+- `DBA_ROLE_PRIVS`: Role granted to users and roles.
+- `ROLE_SYS_PRIVS`: System privileges granted to roles.
+- `ROLE_TAB_PRIVS`: Table privileges granted to roles.
+- `SESSION_PRIVS`: Session privileges that the user currenlty has set.
 
 ---
 
 ## USER_CATALOG
 The USER_CATALOG view displays a summary listing of tables, views, synonym, and sequences owned by the user.\
 There are two columns in USER_CATALOG:
-- TABLE_TYPE: indicates the Database Object (SEQUENCE, TABLE, VIEW, etc.).
-- TABLE_NAME: name of the Table.
+- `TABLE_TYPE`: indicates the Database Object (SEQUENCE, TABLE, VIEW, etc.).
+- `TABLE_NAME`: name of the Table.
 
 **Sources**
 - [Oracle Documentation - USER_CATALOG](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/USER_CATALOG.html)
@@ -94,10 +94,106 @@ Its columns (except for OWNER) are the same as those in ALL_SYNONYMS.
 The USER_TABLES view shows detailed information about the Tables owned by current session account.
 
 Some of the columns include:
-- TABLE_NAME: Name of the Table.
-- STATUS: Indicates whether the Table is currently valid and therefore available for use.
-- ROW_MOVEMENT: Indicates whether ROW MOVEMENT has been enabled for the Table.
-- AVG_ROW_LEN: Average length of the rows currently stored in the Table.
+- `TABLE_NAME`: Name of the Table.
+- `STATUS`: Indicates whether the Table is currently valid and therefore available for use.
+- `ROW_MOVEMENT`: Indicates whether ROW MOVEMENT has been enabled for the Table.
+- `AVG_ROW_LEN`: Average length of the rows currently stored in the Table.
 
 **Sources**
 - [Oracle Documentation - USER_TABLES](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/USER_TABLES.html)
+
+---
+
+## ALL_TABLES
+The ALL_TABLES view shows detailed information about the Tables to which the current User has privileges, regardless of owner.
+
+**Sources**
+- [Oracle Documentation - ALL_TABLES](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/ALL_TABLES.html)
+
+---
+
+## DBA_TABLES
+The DBA_TABLES view shows detailed information about the Tables in the entire Database, regardless of owner or Table privileges.
+
+**Sources**
+- [Oracle Documentation - DBA_TABLES](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/DBA_TABLES.html)
+
+---
+
+## Get existing Constraints on a Table
+```sql
+SELECT constraint_name, constraint_type, search_condition, r_constraint_name
+FROM all_constraints
+WHERE UPPER(table_name) = UPPER('tablename');
+```
+
+**Columns**
+- `CONSTRAINT_NAME`: name of the constraint definition
+- `CONSTRAINT_TYPE`: type of the constraint definition (full list below)
+- `TABLE_NAME`: name associated with the table (or view) with the constraint definition.
+- `SEARCH_CONDITION`: text of search condition for a CHECK constraint.
+- `R_CONSTRAINT_NAME`: name of the parent UNIQUE/PRIMARY KEY constraint.
+	- NULL if the constraint isn't a Foreign Key
+- `DELETE_RULE`: delete rule for a referential constraint (CASCADE, SET NULL, NO ACTION).
+- `STATUS`: status of the constraint (ENABLED, DISABLED).
+
+**Constraint Types**
+- C → CHECK Constraint
+- P → PRIMARY KEY Constraint
+- U → UNIQUE Key
+- R → Referential Integrity
+- V → WITH CHECK OPTION, on a View
+- O → WITH READ ONLY, on a View
+- H → Hash Expression
+- F → Constraint that involves a REF Column
+- S → Supplemental Logging
+
+**Sources**
+- [Oracle Documentation - ALL_CONSTRAINTS](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/ALL_CONSTRAINTS.html)
+
+---
+
+## Get Primary Key details about Table
+```sql
+SELECT
+	cols.table_name
+	, cols.column_name
+	, cols.position
+	, cons.status, cons.owner
+FROM
+	all_constraints cons
+	INNER JOIN all_cons_columns cols
+		ON cons.constraint_name = cols.constraint_name
+		AND cons.owner = cols.owner
+WHERE cons.constraint_type = 'P'
+AND UPPER(cols.table_name) = UPPER('table_name')
+ORDER BY cols.table_name, cols.position;
+```
+
+**Sources**
+- [Oracle Documentation - ALL_CONSTRAINTS](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/ALL_CONSTRAINTS.html)
+- [Oracle Documentation - ALL_CONS_COLUMNS](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/ALL_CONS_COLUMNS.html)
+
+---
+
+## Get current Date format
+```sql
+SELECT *
+FROM nls_session_parameters
+WHERE parameter = 'NLS_DATE_FORMAT';
+```
+
+**Sources**
+- [Oracle Documentation - NLS_SESSION_PARAMETERS](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/NLS_SESSION_PARAMETERS.html)
+
+---
+
+## Get List of updatable Columns on a View
+```sql
+SELECT table_name, column_name, updatable, insertable,deletable
+FROM USER_UPDATABLE_COLUMNS
+WHERE table_name= 'view_name'; 
+```
+
+**Sources**
+- [Oracle Documentation - USER_UPDATABLE_COLUMNS](https://docs.oracle.com/en/database/oracle/oracle-database/21/refrn/USER_UPDATABLE_COLUMNS.html)
