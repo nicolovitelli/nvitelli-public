@@ -120,22 +120,38 @@ The DBA_TABLES view shows detailed information about the Tables in the entire Da
 
 ---
 
-## Get existing Constraints on a Table
-```sql
-SELECT constraint_name, constraint_type, search_condition, r_constraint_name
-FROM all_constraints
-WHERE UPPER(table_name) = UPPER('tablename');
-```
+## ALL_CONSTRAINTS
+ALL_CONSTRAINTS describes constraint definitions on tables accessible to the current user.
 
 **Columns**
-- `CONSTRAINT_NAME`: name of the constraint definition
-- `CONSTRAINT_TYPE`: type of the constraint definition (full list below)
-- `TABLE_NAME`: name associated with the table (or view) with the constraint definition.
-- `SEARCH_CONDITION`: text of search condition for a CHECK constraint.
-- `R_CONSTRAINT_NAME`: name of the parent UNIQUE/PRIMARY KEY constraint.
-	- NULL if the constraint isn't a Foreign Key
-- `DELETE_RULE`: delete rule for a referential constraint (CASCADE, SET NULL, NO ACTION).
-- `STATUS`: status of the constraint (ENABLED, DISABLED).
+- `OWNER`: owner of the constraint
+- `CONSTRAINT_NAME`: constraint name
+- `CONSTRAINT_TYPE`: type of constraint (full list below)
+- `TABLE_NAME`: table on which the constraint is defined
+- `SEARCH_CONDITION`: text of search condition for a CHECK constraint
+- `R_OWNER`: owner of the parent constraint
+- `R_CONSTRAINT_NAME`: name of parent constraint (only for Foreign Keys)
+- `DELETE_RULE`: delete rule for a referential constraint (CASCADE, SET NULL, NO ACTION)
+- `STATUS`: constraint status (ENABLED, DISABLED)
+- `DEFERRABLE`: indicates if the constraint is DEFERRABLE or NOT DEFERRABLE
+- `DEFERRED`: indicates if the constraint was initially DEFERRED or not (IMMEDIATE)
+- `VALIDATED`:
+	- if STATUS=ENABLED, possible values are:
+		- VALIDATED: all data in the table obeys the constraint
+		- NOT VALIDATED: alla data in the table may not obey the constraint
+	- if STATUS=DISABLED, possible values are:
+		- VALIDATED: all data obeys the constraint but the unique index on the constraint has been dropped.
+		- NOT VALIDATED: all data may not obey the constraint
+- `GENERATED`: indicates if the constraint name is user-generated (USER NAME) or system-generated (GENERATED NAME)
+- `BAD`: indicates whether this constraint specifies a century in an ambiguous manner (BAD) or not (NULL).
+	- to resolve the issue, rewrite the constraint using the TO_DATE function with a four-digit year
+- `RELY`: [...]
+- `LAST_CHANGE`: when the constraint was last enabled or disabled
+- `INDEX_OWNER`: name of the user owning the index
+- `INDEX_NAME`: name of the index (only for UNIQUE and Primary Key constraints)
+- `INVALID`: indicates if the constraint is INVALID or not (NULL).
+- `VIEW_RELATED`: indicated if the constraint depends on a view (DEPEND ON VIEW) or not
+- `ORIGIN_CON_ID`: [...]
 
 **Constraint Types**
 - C → CHECK Constraint
@@ -147,6 +163,18 @@ WHERE UPPER(table_name) = UPPER('tablename');
 - H → Hash Expression
 - F → Constraint that involves a REF Column
 - S → Supplemental Logging
+
+**Sources**
+- [Oracle Documentation - ALL_CONSTRAINTS](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/ALL_CONSTRAINTS.html)
+
+---
+
+## Get existing Constraints on a Table
+```sql
+SELECT constraint_name, constraint_type, search_condition, r_constraint_name, delete_rule, status
+FROM all_constraints
+WHERE UPPER(table_name) = UPPER('tablename');
+```
 
 **Sources**
 - [Oracle Documentation - ALL_CONSTRAINTS](https://docs.oracle.com/en/database/oracle/oracle-database/19/refrn/ALL_CONSTRAINTS.html)

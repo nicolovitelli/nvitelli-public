@@ -17,13 +17,13 @@ title: Advanced Concepts
 
 Supposing SYSDATE is 28-NOV-22:
 - SYSDATE - 1 → 27-NOV-22
-- 1 - SYSDATE → ORA-00932: inconsistent datatypes
+- 1 - SYSDATE → `ORA-00932: inconsistent datatypes`
 - SYSDATE + 1 → 29-NOV-22
 - 1 + SYSDATE → 29-NOV-2022
-- SYSDATE * 1 → ORA-00932: inconsistent datatypes
-- 1 * SYSDATE → ORA-00932: inconsistent datatypes
-- SYSDATE / 1 → ORA-00932: inconsistent datatypes
-- 1 / SYSDATE → ORA-00932: inconsistent datatypes
+- SYSDATE * 1 → `ORA-00932: inconsistent datatypes`
+- 1 * SYSDATE → `ORA-00932: inconsistent datatypes`
+- SYSDATE / 1 → `ORA-00932: inconsistent datatypes`
+- 1 / SYSDATE → `ORA-00932: inconsistent datatypes`
 - SYDATE - TO_DATE('27-NOV-2022') → 1
 	- Calculates number of days between two dates.
 
